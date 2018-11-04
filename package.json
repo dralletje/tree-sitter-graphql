@@ -7,6 +7,7 @@
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test"
   },
+  "repo": "git@github.com:dralletje/tree-sitter-graphql.git",
   "author": "Michiel Dral <michiel@dral.eu>",
   "license": "ISC",
   "dependencies": {

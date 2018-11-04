@@ -1,9 +1,13 @@
 # tree-sitter-graphql
 
-Attempt at a graphql grammar for [tree-sitter][].
+Attempt at a graphql grammar for [tree-sitter][].  
+Install with
+
+```
+npm install tree-sitter-graphql
+```
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
-
 
 I think I have the whole ast defined, but please let me know (or send a PR!) if I have missed something. I have all the rules defined with their names from the graphql spec (https://facebook.github.io/graphql/draft), so you can look at those and write an Atom grammar.
 
