@@ -822,7 +822,7 @@
             "members": [
               {
                 "type": "STRING",
-                "value": "extends"
+                "value": "extend"
               },
               {
                 "type": "STRING",
@@ -862,7 +862,7 @@
             "members": [
               {
                 "type": "STRING",
-                "value": "extends"
+                "value": "extend"
               },
               {
                 "type": "STRING",
