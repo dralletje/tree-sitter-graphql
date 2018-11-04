@@ -1,0 +1,80 @@
+==========================
+Static query operation
+==========================
+
+query {
+  object(name: "chair") { id, color }
+}
+
+---
+
+(source_file (Document (Definition (ExecutableDefinition (OperationDefinition (OperationType) (SelectionSet (Selection (Field (Name) (Arguments (Argument (Name) (Value (StringValue)))) (SelectionSet (Selection (Field (Name))) (comma) (Selection (Field (Name))))))))))))
+
+==========================
+Dynamic query operation
+==========================
+
+query GetColorsBetween($from: HexColor!, $to: HexColor!) {
+  get_colors_between(from: $from, to: $to) @skip(if: false) {
+    items { id, name, hex }
+  }
+}
+
+---
+
+(source_file (Document (Definition (ExecutableDefinition (OperationDefinition (OperationType) (Name) (VariableDefinitions (VariableDefinition (Variable (Name)) (Type (NonNullType (NamedType (Name))))) (comma) (VariableDefinition (Variable (Name)) (Type (NonNullType (NamedType (Name)))))) (SelectionSet (Selection (Field (Name) (Arguments (Argument (Name) (Value (Variable (Name)))) (comma) (Argument (Name) (Value (Variable (Name))))) (Directives (Directive (Name) (Arguments (Argument (Name) (Value (BooleanValue)))))) (SelectionSet (Selection (Field (Name) (SelectionSet (Selection (Field (Name))) (comma) (Selection (Field (Name))) (comma) (Selection (Field (Name)))))))))))))))
+
+==========================
+Mutation with hardcoded values
+==========================
+
+mutation AddColor {
+  add_color(
+    name: "A very little bit green",
+    rgb: {
+      r: 0,
+      g: 10,
+      b: 0,
+    }
+    a: 1.0,
+    public: false,
+    categories: [DARK, NATURE]
+  ) {
+    id
+  }
+}
+
+---
+
+(source_file (Document (Definition (ExecutableDefinition (OperationDefinition (OperationType) (Name) (SelectionSet (Selection (Field (Name) (Arguments (Argument (Name) (Value (StringValue))) (comma) (Argument (Name) (Value (ObjectValue (ObjectField (Name) (Value (IntValue))) (comma) (ObjectField (Name) (Value (IntValue))) (comma) (ObjectField (Name) (Value (IntValue))) (comma)))) (Argument (Name) (Value (FloatValue))) (comma) (Argument (Name) (Value (BooleanValue))) (comma) (Argument (Name) (Value (ListValue (Value (EnumValue (Name))) (comma) (Value (EnumValue (Name))))))) (SelectionSet (Selection (Field (Name))))))))))))
+
+==========================
+Query with fragments
+==========================
+
+query Color($id: ID!) {
+  color(id: $id) {
+    ...ColorFragment
+    ... on AlphaColor {
+      alpha
+    }
+  }
+}
+
+---
+
+(source_file (Document (Definition (ExecutableDefinition (OperationDefinition (OperationType) (Name) (VariableDefinitions (VariableDefinition (Variable (Name)) (Type (NonNullType (NamedType (Name)))))) (SelectionSet (Selection (Field (Name) (Arguments (Argument (Name) (Value (Variable (Name))))) (SelectionSet (Selection (FragmentSpread (FragmentName (Name)))) (Selection (InlineFragment (TypeCondition (NamedType (Name))) (SelectionSet (Selection (Field (Name)))))))))))))))
+
+==========================
+Fragment definition
+==========================
+
+fragment ColorFragment on Color {
+  id
+  name
+  hex
+}
+
+---
+
+(source_file (Document (Definition (ExecutableDefinition (FragmentDefinition (FragmentName (Name)) (TypeCondition (NamedType (Name))) (SelectionSet (Selection (Field (Name))) (Selection (Field (Name))) (Selection (Field (Name)))))))))

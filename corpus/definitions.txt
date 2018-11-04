@@ -1,0 +1,76 @@
+==========================
+Enum definition
+==========================
+
+"""
+Not that much colors supported just yet
+"""
+enum Color {
+  RED
+  GREEN
+  BLUE
+}
+
+---
+
+(source_file (Document (Definition (TypeSystemDefinition (TypeDefinition (EnumTypeDefinition (Description (StringValue)) (Name) (EnumValuesDefinition (EnumValueDefinition (EnumValue (Name))) (EnumValueDefinition (EnumValue (Name))) (EnumValueDefinition (EnumValue (Name))))))))))
+
+=============================================
+Input type definition
+=============================================
+
+input InputColorsUpdate {
+  id: ID!
+  colors: [Color!]!
+}
+
+---
+
+(source_file (Document (Definition (TypeSystemDefinition (TypeDefinition (InputObjectTypeDefinition (Name) (InputFieldsDefinition (InputValueDefinition (Name) (Type (NonNullType (NamedType (Name))))) (InputValueDefinition (Name) (Type (NonNullType (ListType (Type (NonNullType (NamedType (Name)))))))))))))))
+
+=============================================
+Type definition with arguments
+=============================================
+
+"""
+A set of colors that can be shared and managed
+"""
+type ColorCollection {
+  id: ID!
+  "The colors, list might be huge!"
+  colors(offset: Int!, limit: Int!): [Color!]!
+}
+
+---
+
+(source_file (Document (Definition (TypeSystemDefinition (TypeDefinition (ObjectTypeDefinition (Description (StringValue)) (Name) (FieldsDefinition (FieldDefinition (Name) (Type (NonNullType (NamedType (Name))))) (FieldDefinition (Description (StringValue)) (Name) (ArgumentsDefinition (InputValueDefinition (Name) (Type (NonNullType (NamedType (Name))))) (comma) (InputValueDefinition (Name) (Type (NonNullType (NamedType (Name)))))) (Type (NonNullType (ListType (Type (NonNullType (NamedType (Name)))))))))))))))
+
+=============================================
+Defining scalar, directive
+=============================================
+
+"""
+Add this to anything that should represent a color
+"""
+directive @colored(alpha: Boolean = false) on TYPE, SCALAR
+scalar rgba @colored(alpha: true)
+
+---
+
+(source_file (Document (Definition (TypeSystemDefinition (DirectiveDefinition (Description (StringValue)) (Name) (ArgumentsDefinition (InputValueDefinition (Name) (Type (NamedType (Name))) (DefaultValue (Value (BooleanValue))))) (ERROR (Name)) (comma) (DirectiveLocations (DirectiveLocation (TypeSystemDirectiveLocation)))))) (Definition (TypeSystemDefinition (TypeDefinition (ScalarTypeDefinition (Name) (Directives (Directive (Name) (Arguments (Argument (Name) (Value (BooleanValue))))))))))))
+
+=============================================
+Extending definitions
+=============================================
+
+extend type ColorCollection {
+  Owner: User!
+}
+extend enum Colors {
+  "Silver is pretty beautiful"
+  SILVER
+}
+
+---
+
+(source_file (Document (Definition (TypeSystemExtension (TypeExtension (ObjectTypeExtension (Name) (FieldsDefinition (FieldDefinition (Name) (Type (NonNullType (NamedType (Name)))))))))) (Definition (TypeSystemExtension (TypeExtension (EnumTypeExtension (Name) (EnumValuesDefinition (EnumValueDefinition (Description (StringValue)) (EnumValue (Name)))))))))) 
